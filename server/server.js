@@ -7,8 +7,12 @@ const authRouter = require('./routes/auth/auth-routes')
 const adminProductsRouter = require('./routes/admin/products-routes')
 const shopProductsRouter = require('./routes/shop/products-routes')
 const shopCartRouter = require('./routes/shop/cart-routes')
+const connectDB = require('./db/conn')
+const dotenv = require('dotenv'); 
+dotenv.config({path: './.env'})
 
-mongoose.connect('mongodb+srv://laraibnehal0:WltvOh0qkG6Vq4rf@ayesha.c4ukf.mongodb.net/').then(()=>console.log('MongoDB connected')).catch((error)=>console.log(error))
+// mongoose.connect(DATABASE).then(()=>console.log('MongoDB connected')
+// ).catch((error)=>console.log(error))
  const app = express();
  const PORT = process.env.PORT || 5000;
  app.use(
@@ -36,4 +40,15 @@ mongoose.connect('mongodb+srv://laraibnehal0:WltvOh0qkG6Vq4rf@ayesha.c4ukf.mongo
  app.use("/api/shop/cart", shopCartRouter)
 //  /api/auth/register => registerUser
 //  /api/auth/login => loginUser
- app.listen(PORT,()=> console.log(`server is running on port ${PORT}`))
+const start = async ()=>{
+    try{
+        connectDB(process.env.DATABASE);
+app.listen(PORT,()=> console.log(`server is running on port ${PORT}`)
+    );
+}
+    
+    catch(error){
+        console.log(error);
+    }
+}
+start();
